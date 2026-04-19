@@ -1,7 +1,7 @@
 // Seven-segment display decoder for hexadecimal digits.
 //
 // Parameters:
-// ACTIVE_LOW - 1 for active-low LEDs (for example, DE1-SoC), 0 for 
+// ACTIVE_LOW - 1 for active-low LEDs (for example, DE1-SoC), 0 for
 //              positive-high
 //
 // Ports:
