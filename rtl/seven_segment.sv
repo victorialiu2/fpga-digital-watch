@@ -19,6 +19,7 @@ module seven_segment #(
     output logic [6:0] segments
 );
   logic [6:0] segments_active_high;
+  // negate values if segments light up on low signal
   assign segments = ACTIVE_LOW != 0 ? ~segments_active_high : segments_active_high;
   always_comb
     if (!blank)

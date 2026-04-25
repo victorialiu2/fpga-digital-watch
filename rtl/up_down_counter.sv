@@ -1,5 +1,5 @@
 // A counter that can incremenet up or down from 0 to a provided max value,
-// and pause counting.
+// and pause counting. Range includes the max value.
 //
 // Parameters:
 // MAX    - the max value in decimal
@@ -25,7 +25,7 @@ module up_down_counter #(
   logic [WIDTH-1:0] next_count;
   always_ff @(posedge clk) if (enable) count <= next_count;
 
-  // avoid 32-bit wide default length of 0 by itself
+  // adding ' avoids 32-bit wide default length
   initial count = '0;
   // avoid 32-bit wide int MAX, translate it to Max and explicitly adjust width
   localparam logic [WIDTH-1:0] Max = WIDTH'(MAX);
