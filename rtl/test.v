@@ -30,10 +30,12 @@ module wave_hms_counter;
     $dumpvars(0, wave_hms_counter);
 
     // Hold at zero: enable low for two cycles
-    #20;
+    #30;
 
     // Count through one full H:M:S cycle (3 * 4 * 5 = 60 cycles)
     enable = 1;
+    #50;
+    enable = 0;
     #600;
 
     $finish;

@@ -1,6 +1,6 @@
 // Has 3 counters, where the seconds counter updates every clk signal,
 // the minutes counter updates when the max seconds is reached, and
-// the hours counter updates wehn the max minutes is reached. All counters
+// the hours counter updates when the max minutes is reached. All counters
 // get reset to 0 to when they reach the max amount.
 //
 // Parameters:
