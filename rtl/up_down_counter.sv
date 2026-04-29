@@ -1,4 +1,4 @@
-// A counter that can incremenet up or down from 0 to a provided max value,
+// A counter that can increment up or down from 0 to a provided max value,
 // and pause counting. Range includes the max value.
 //
 // Parameters:

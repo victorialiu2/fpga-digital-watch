@@ -46,7 +46,7 @@ module hms_counter #(
   always_comb begin
     second_rollover = 0;
     minute_rollover = 0;
-    if (seconds >= MaxSeconds) begin
+    if (enable & seconds >= MaxSeconds) begin
       second_rollover = 1;
       if (minutes >= MaxMinutes) minute_rollover = 1;
     end

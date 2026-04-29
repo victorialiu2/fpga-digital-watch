@@ -1,22 +1,16 @@
-// Has 3 counters, where the seconds counter updates every clk signal,
-// the minutes counter updates when the max seconds is reached, and
-// the hours counter updates when the max minutes is reached. All counters
-// get reset to 0 to when they reach the max amount.
+// A simple counter that adds 1 to the current count,
+// and wraps back to 0 after it reaches the end of the
+// range. The range is [0, N - 1]
 //
 // Parameters:
-// N_HOURS      - number of hours
-// N_MINUTES    - number of minutes
-// N_SECONDS    - number of seconds
-// W_HOURS      - number of bits for hours
-// W_MINUTES    - number of bits for minutes
-// W_SECONDS    - number of bits for seconds
+// N      - max/modulo number (excluded from range)
+// WIDTH  - number of bits needed to store N states
 //
 // Ports:
-// clk                - clock signal
-// enable             - only increment if enable is set to 1
-// hours              - hours counter
-// minutes            - minutes counter
-// seconds            - seconds counter
+// clk      - clock signal
+// rst      - reset pin, sets count to 0 when high
+// enable   - only increment if enable is set to 1
+// count    - holds current count
 
 `timescale 1ns / 1ps
 
@@ -30,7 +24,7 @@ module mod_n_counter #(
     output logic [WIDTH-1:0] count
 );
   logic [WIDTH-1:0] next_count;
-  logic [WIDTH-1:0] max = WIDTH'(N);
+  logic [WIDTH-1:0] max = WIDTH'(N - 1);
 
   initial count = '0;
 
