@@ -5,7 +5,7 @@ module wave_pwm_generator;
   wire pwm_out;
 
   pwm_generator #(
-      .PERIOD_CYCLES(4),
+      .PERIOD_CYCLES(10),
       .DUTY_CYCLES  (8)
   ) dut (
       .clk    (clk),
