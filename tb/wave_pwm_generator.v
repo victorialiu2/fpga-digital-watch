@@ -1,11 +1,11 @@
-`timescale 1ns/1ps
+`timescale 1ns / 1ps
 module wave_pwm_generator;
   reg  clk = 0;
   reg  rst = 0;
   wire pwm_out;
 
   pwm_generator #(
-      .PERIOD_CYCLES(10),
+      .PERIOD_CYCLES(4),
       .DUTY_CYCLES  (8)
   ) dut (
       .clk    (clk),

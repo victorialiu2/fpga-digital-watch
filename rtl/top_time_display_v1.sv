@@ -1,15 +1,19 @@
-// A counter that can increment up or down from 0 to a provided max value,
-// and pause counting.
+// A digital clock that stores the time (in seconds, minutes, hours)
+// of a single 24hr cycle. The speed can be changed to 4 settings.
+// The output is displayed on 6 seven-segment displays.
 //
 // Parameters:
-// MAX    - the max value in decimal
-// WIDTH  - how many binary digits does the max value need
+// CYCLES_PER_SECOND    - the frequency of the input clock signal
 //
 // Ports:
-// clk                - clock signal
-// enable             - only increment if enable is set to 1
-// up                 - increment up if up is set to 1, otherwise down
-// count [WIDTH-1:0]  - the count output
+// CLOCK_50 - input clock signal
+// SW       - switch input, gives 4 choices of clock speed (1Hz, 25Hz, 1kHz, 50MHz)
+// HEX5     - 1 of 6 SSEGs, shows the tens digit of the hour
+// HEX4     - 2 of 6 SSEGs, shows the ones digit of the hour
+// HEX3     - 3 of 6 SSEGs, shows the tens digit of the minute
+// HEX2     - 4 of 6 SSEGs, shows the ones digit of the minute
+// HEX1     - 5 of 6 SSEGs, shows the tens digit of the second
+// HEX0     - 6 of 6 SSEGs, shows the ones digit of the second
 
 `timescale 1ns / 1ps
 
@@ -25,121 +29,102 @@ module top_time_display_v1 #(
     output logic [6:0] HEX1,
     output logic [6:0] HEX0
 );
-  localparam int MaxH = 24, MaxM = 60, MaxS = 60;
-  localparam int WidH = 5, WidM = 6, WidS = 6;
-  localparam int WidBCD = 4;  // width of binary-coded decimal digit
+  // clock speeds
+  logic clk25Hz, clk1kHz, clk1Hz, hmsClk;
+  // binary values
+  logic [4:0] hours;
+  logic [5:0] minutes;
+  logic [5:0] seconds;
+  // BDCs
+  logic [3:0] hoursTens;
+  logic [3:0] hoursOnes;
+  logic [3:0] minutesTens;
+  logic [3:0] minutesOnes;
+  logic [3:0] secondsTens;
+  logic [3:0] secondsOnes;
+  // set clock speed
+  always_comb
+    unique case (SW)
+      2'b00: hmsClk = clk1Hz;
+      2'b01: hmsClk = clk25Hz;
+      2'b10: hmsClk = clk1kHz;
+      2'b11: hmsClk = CLOCK_50;
+    endcase
 
-  hms_counter #(
-      .N_HOURS  (MaxH),
-      .N_MINUTES(MaxM),
-      .N_SECONDS(MaxS),
-      .W_HOURS  (WidH),
-      .W_MINUTES(WidM),
-      .W_SECONDS(WidS)
-  ) hms (
+  hms_counter hms (
       .clk(CLOCK_50),
-      .enable('1),
+      .enable(hmsClk),
       .hours(hours),
       .minutes(minutes),
       .seconds(seconds)
   );
+
   restartable_rate_generator #(
       .CYCLE_COUNT(CYCLES_PER_SECOND)
-  ) rateGenS (
-      .clk (),
-      .run (),
-      .tick()
+  ) rg50MHz (
+      .clk (CLOCK_50),
+      .run ('1),
+      .tick(clk1Hz)
   );
   restartable_rate_generator #(
-      .CYCLE_COUNT()
-  ) rateGenM (
-      .clk (),
-      .run (),
-      .tick()
+      .CYCLE_COUNT(CYCLES_PER_SECOND / 1_000)
+  ) rg1kHz (
+      .clk (CLOCK_50),
+      .run ('1),
+      .tick(clk1kHz)
   );
   restartable_rate_generator #(
-      .CYCLE_COUNT()
-  ) rateGenH (
-      .clk (),
-      .run (),
-      .tick()
+      .CYCLE_COUNT(CYCLES_PER_SECOND / 25)
+  ) rg25Hz (
+      .clk (CLOCK_50),
+      .run ('1),
+      .tick(clk25Hz)
   );
   binary_to_bcd bcdS (
-      .bin (hours),
-      .tens(hoursTens),
-      .ones(hoursOnes)
+      .bin ({1'b0, seconds}),
+      .tens(secondsTens),
+      .ones(secondsOnes)
   );
   binary_to_bcd bcdM (
-      .bin (minutes),
+      .bin ({1'b0, minutes}),
       .tens(minutesTens),
       .ones(minutesOnes)
   );
   binary_to_bcd bcdH (
-      .bin (hours),
+      .bin ({2'b0, hours}),
       .tens(hoursTens),
       .ones(hoursOnes)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegH1 (
+  seven_segment ssegH1 (
       .digit(hoursTens),
       .blank('0),
       .segments(HEX5)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegH2 (
+  seven_segment ssegH2 (
       .digit(hoursOnes),
       .blank('0),
       .segments(HEX4)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegM1 (
+  seven_segment ssegM1 (
       .digit(minutesTens),
       .blank('0),
       .segments(HEX3)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegM2 (
+  seven_segment ssegM2 (
       .digit(minutesOnes),
       .blank('0),
       .segments(HEX2)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegS1 (
+  seven_segment ssegS1 (
       .digit(secondsTens),
       .blank('0),
       .segments(HEX1)
   );
-  seven_segment #(
-      .ACTIVE_LOW('1)
-  ) ssegS2 (
+  seven_segment ssegS2 (
       .digit(secondsOnes),
       .blank('0),
       .segments(HEX0)
   );
 
-  // binary values
-  logic [WidH-1:0] hours;
-  logic [WidM-1:0] minutes;
-  logic [WidS-1:0] seconds;
-  // BDCs
-  logic [WidBCD-1:0] hoursTens;
-  logic [WidBCD-1:0] hoursOnes;
-  logic [WidBCD-1:0] minutesTens;
-  logic [WidBCD-1:0] minutesOnes;
-  logic [WidBCD-1:0] secondsTens;
-  logic [WidBCD-1:0] secondsOnes;
-  // cycle speed
-  logic [25:0] tickRate;
-  always_comb
-    unique case (SW)
-      2'b00: tickRate = 26'(CYCLES_PER_SECOND);
-      2'b01: tickRate = 26'd2_000_000;
-      2'b10: tickRate = 26'd50_000;
-      2'b11: tickRate = '1;
-    endcase
 endmodule
+
