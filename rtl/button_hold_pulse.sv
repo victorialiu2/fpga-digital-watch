@@ -1,15 +1,13 @@
-// A counter that can increment up or down from 0 to a provided max value,
-// and pause counting.
+// Outputs a single high pulse when a button is held for a number
+// of cycles.
 //
 // Parameters:
-// MAX    - the max value in decimal
-// WIDTH  - how many binary digits does the max value need
+// HOLD_CYCLES  - the duration of hold until held is set to high
 //
 // Ports:
-// clk                - clock signal
-// enable             - only increment if enable is set to 1
-// up                 - increment up if up is set to 1, otherwise down
-// count [WIDTH-1:0]  - the count output
+// clk      - clock signal
+// button   - button press signal
+// pulse    - pulse signal - is high only one cycle per hold
 
 `timescale 1ns / 1ps
 

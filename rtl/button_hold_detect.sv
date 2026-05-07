@@ -1,4 +1,5 @@
 // Detects when a button has been held for a number of cycles.
+// Holds a high output signal when it has detected a button hold.
 //
 // Parameters:
 // HOLD_CYCLES  - the duration of hold until held is set to high

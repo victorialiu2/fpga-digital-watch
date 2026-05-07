@@ -1,15 +1,16 @@
-// A counter that can increment up or down from 0 to a provided max value,
-// and pause counting.
+// When a button is pressed, a single 1-cycle pulse is sent.
+// More pulses are sent after the button is held for a number of
+// cycles, in a specified interval length.
 //
 // Parameters:
-// MAX    - the max value in decimal
-// WIDTH  - how many binary digits does the max value need
+// HOLD_CYCLES      - length of press until the first pulse in the
+//                    cycle is sent
+// REPEAT_CYCLES    - interval between subsequent pulses
 //
 // Ports:
-// clk                - clock signal
-// enable             - only increment if enable is set to 1
-// up                 - increment up if up is set to 1, otherwise down
-// count [WIDTH-1:0]  - the count output
+// clk      - clock signal
+// button   - button signal
+// pulse    - output pulse signal
 
 `timescale 1ns / 1ps
 
