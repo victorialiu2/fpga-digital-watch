@@ -1,4 +1,4 @@
-// A module that manages the navigation between the 4 states for the 
+// A module that manages the navigation between the 4 states for the
 // edit mode of the watch.
 //
 // Parameters:
@@ -39,15 +39,18 @@ module edit_mode_selector #(
 
   logic armed;
   logic disarm;
+  // when long_press is detected, keep armed high until disarmed
   arming_latch u_latch (
       .clk(clk),
       .arm(long_press),
       .disarm(disarm),
       .armed(armed)
   );
+
   logic reset_counter;
   logic enable_counter;
   logic [1:0] count;
+  // count is the mode represented in binary encoding
   mod_n_counter #(
       .N(3),
       .WIDTH(2)
@@ -58,13 +61,14 @@ module edit_mode_selector #(
       .count(count)
   );
 
-  // Counter runs only while armed; resets when disarmed
+  // Counter runs only while armed & button is pressed;
+  // resets when disarmed
   assign enable_counter = armed && press;
-  assign reset_counter = disarm;
+  assign reset_counter = !armed;
 
   // Disarm in the press that steps past the last mode
-  assign disarm = (mode_enable == 3'b100 && press) ? '1 : '0;
+  assign disarm = (enable_counter && count == 2'd2) ? '1 : '0;
 
-  // Output logic
+  // Output logic (in one-hot encoding)
   assign mode_enable = armed ? (3'b001 << count) : 3'b000;
 endmodule

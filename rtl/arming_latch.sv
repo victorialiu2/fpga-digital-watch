@@ -1,5 +1,5 @@
 // A module that imitates an arming latch.
-// arm signal sets the output to high.
+// arm signal sets the output to high until it is disarmed.
 // disarm signal sets the output to low, and overrides the arm signal.
 //
 // Parameters: none
@@ -21,7 +21,6 @@ module arming_latch (
 
   initial armed = '0;
   always_ff @(posedge clk) begin
-    armed <= armed;
     if (disarm) armed <= '0;
     else if (arm) armed <= '1;
   end
