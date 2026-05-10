@@ -1,0 +1,51 @@
+{
+  "extensionVersion": "1.5.2",
+  "fileName": "/workspace/wave_user_top_watch_v3.vcd",
+  "markerTime": null,
+  "altMarkerTime": null,
+  "displayTimeUnit": "ps",
+  "selectedSignal": null,
+  "zoomRatio": 0.0002,
+  "scrollLeft": 0,
+  "displayedSignals": [
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 1,
+      "name": "wave_user_top_watch_v3.seconds_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "seconds_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 2,
+      "name": "wave_user_top_watch_v3.minutes_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "minutes_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 3,
+      "name": "wave_user_top_watch_v3.hours_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "hours_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    }
+  ]
+}
