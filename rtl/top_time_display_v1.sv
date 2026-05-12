@@ -48,7 +48,7 @@ module top_time_display_v1 #(
       2'b00: hmsClk = clk1Hz;
       2'b01: hmsClk = clk25Hz;
       2'b10: hmsClk = clk1kHz;
-      2'b11: hmsClk = CLOCK_50;
+      2'b11: hmsClk = '1;
     endcase
 
   hms_counter hms (

@@ -4,12 +4,8 @@
   "markerTime": 210822,
   "altMarkerTime": null,
   "displayTimeUnit": "ps",
-  "selectedSignal": {
-    "name": "wave_key_synchroniser.key_n",
-    "msb": 3,
-    "lsb": 0
-  },
-  "zoomRatio": 0.004491942456331948,
+  "selectedSignal": null,
+  "zoomRatio": 0.00539878178000533,
   "scrollLeft": 0,
   "displayedSignals": [
     {

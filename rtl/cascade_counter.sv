@@ -1,15 +1,22 @@
-// A counter that can increment up or down from 0 to a provided max value,
-// and pause counting.
+// Contains 3 counters, where count0 increases at every clock cycle, count1
+// increments at count0 rollover, and count2 increments at count1 rollover.
+// Can be paused, or reset.
 //
 // Parameters:
-// MAX    - the max value in decimal
-// WIDTH  - how many binary digits does the max value need
+// N2       - max value of count2 (exclusive)
+// N1       - max value of count1 (exclusive)
+// N0       - max value of count0 (exclusive)
+// W2       - number of bits for count2
+// W1       - number of bits for count1
+// W0       - number of bits for count0
 //
 // Ports:
 // clk                - clock signal
+// rst                - reset signal (priority over enable)
 // enable             - only increment if enable is set to 1
-// up                 - increment up if up is set to 1, otherwise down
-// count [WIDTH-1:0]  - the count output
+// count2 [W2-1:0]    - count2 signal
+// count1 [W1-1:0]    - count1 signal
+// count0 [W0-1:0]    - count0 signal
 
 `timescale 1ns / 1ps
 
@@ -31,9 +38,6 @@ module cascade_counter #(
 );
   localparam logic [W1-1:0] MaxN1 = W1'(N1 - 1);
   localparam logic [W0-1:0] MaxN0 = W0'(N0 - 1);
-  initial count2 = '0;
-  initial count1 = '0;
-  initial count0 = '0;
   logic N0Rollover, N1Rollover;
 
   mod_n_counter #(
@@ -66,13 +70,7 @@ module cascade_counter #(
       .count(count0)
   );
 
-  always_comb begin
-    N0Rollover = '0;
-    N1Rollover = '0;
-    if (enable & count0 >= MaxN0) begin
-      N0Rollover = '1;
-      if (count1 >= MaxN1) N1Rollover = '1;
-    end
-  end
+  assign N0Rollover = enable & (count0 == MaxN0);
+  assign N1Rollover = N0Rollover & (count1 == MaxN1);
 
 endmodule

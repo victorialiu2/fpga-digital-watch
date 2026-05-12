@@ -12,11 +12,11 @@
 // W_SECONDS    - number of bits for seconds
 //
 // Ports:
-// clk                - clock signal
-// enable             - only increment if enable is set to 1
-// hours              - hours counter
-// minutes            - minutes counter
-// seconds            - seconds counter
+// clk                      - clock signal
+// enable                   - only increment if enable is set to 1
+// hours [W_HOURS-1:0]      - hours counter
+// minutes [W_MINUTES-1:0]  - minutes counter
+// seconds [W_SECONDS-1:0]  - seconds counter
 
 `timescale 1ns / 1ps
 
@@ -43,14 +43,8 @@ module hms_counter #(
   localparam logic [W_MINUTES-1:0] MaxMinutes = W_MINUTES'(N_MINUTES - 1);
   localparam logic [W_SECONDS-1:0] MaxSeconds = W_SECONDS'(N_SECONDS - 1);
 
-  always_comb begin
-    second_rollover = '0;
-    minute_rollover = '0;
-    if (enable & seconds >= MaxSeconds) begin
-      second_rollover = '1;
-      if (minutes >= MaxMinutes) minute_rollover = '1;
-    end
-  end
+  assign second_rollover = enable & (seconds == MaxSeconds);
+  assign minute_rollover = second_rollover & (minutes == MaxMinutes);
 
   up_down_counter #(
       .MAX  (N_HOURS - 1),
