@@ -44,11 +44,11 @@ module hms_counter #(
   localparam logic [W_SECONDS-1:0] MaxSeconds = W_SECONDS'(N_SECONDS - 1);
 
   always_comb begin
-    second_rollover = 0;
-    minute_rollover = 0;
+    second_rollover = '0;
+    minute_rollover = '0;
     if (enable & seconds >= MaxSeconds) begin
-      second_rollover = 1;
-      if (minutes >= MaxMinutes) minute_rollover = 1;
+      second_rollover = '1;
+      if (minutes >= MaxMinutes) minute_rollover = '1;
     end
   end
 
