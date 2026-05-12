@@ -1,22 +1,15 @@
-// Contains 3 counters, where count0 increases at every clock cycle, count1
-// increments at count0 rollover, and count2 increments at count1 rollover.
-// Can be paused, or reset.
+// A 2x1 multiplexer that assigns the output to the input when hold is low,
+// and when hold is high, it assigns the output to the input of the previous
+// clock cycle.
 //
 // Parameters:
-// N2       - max value of count2 (exclusive)
-// N1       - max value of count1 (exclusive)
-// N0       - max value of count0 (exclusive)
-// W2       - number of bits for count2
-// W1       - number of bits for count1
-// W0       - number of bits for count0
+// WIDTH - how many bits the I and O signals need
 //
 // Ports:
 // clk                - clock signal
-// enable             - only increment if enable is set to 1
-// rst                - reset signal (priority over enable)
-// count2             - count2 signal
-// count1             - count1 signal
-// count0             - count0 signal
+// hold               - hold signal (mux switch)
+// d                  - input signal
+// q                  - output signal
 
 `timescale 1ns / 1ps
 
