@@ -1,10 +1,11 @@
 // the control logic of the stopwatch - switches between 2 planes of states:
-// - live/frozen display
-// - running/paused counter
+//    - live/frozen display
+//    - running/paused counter
 // Additionally, handles reset logic.
+// Assumes input toggle signals are single-cycle pulses.
 //
 // Parameters: none
-// 
+//
 // Ports:
 // clk                - clock signal
 // rise_start_stop    - toggle between run/pause state

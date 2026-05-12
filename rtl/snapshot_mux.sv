@@ -8,8 +8,8 @@
 // Ports:
 // clk                - clock signal
 // hold               - hold signal (mux switch)
-// d                  - input signal
-// q                  - output signal
+// d [WIDTH-1:0]      - input signal
+// q [WIDTH-1:0]      - output signal
 
 `timescale 1ns / 1ps
 
