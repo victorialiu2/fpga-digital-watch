@@ -12,11 +12,11 @@
 //
 // Ports:
 // clk                - clock signal
-// enable             - only increment if enable is set to 1
 // rst                - reset signal (priority over enable)
-// count2             - count2 signal
-// count1             - count1 signal
-// count0             - count0 signal
+// enable             - only increment if enable is set to 1
+// count2 [W2-1:0]    - count2 signal
+// count1 [W1-1:0]    - count1 signal
+// count0 [W0-1:0]    - count0 signal
 
 `timescale 1ns / 1ps
 
