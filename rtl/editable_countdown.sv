@@ -1,18 +1,23 @@
-// the control logic of the stopwatch - switches between 2 planes of states:
-//    - live/frozen display
-//    - running/paused counter
-// Additionally, handles reset logic.
-// Assumes input toggle signals are single-cycle pulses.
+// A counter that can increment up or down from 0 to a provided max value,
+// pause counting. The increment can happen in 2 modes: via a tick signal,
+// or inc and dec signal, depending on the edit mode. Unlike editable_counter.sv,
+// this decrements on a tick, and can be reset.
 //
-// Parameters: none
+// Parameters:
+// N      - The maximum count value (exclusive, range: [0, N-1])
+// WIDTH  - how many binary digits does N need
 //
 // Ports:
-// clk                - clock signal
-// rise_start_stop    - toggle between run/pause state
-// rise_lap           - toggle between live/frozen state
-// counter_rst        - reset signal
-// counter_enable     - run/pause counter state
-// lap_hold           - live/frozen state (for lap)
+// clk                  - clock signal
+// clr                  - clear signal
+// tick                 - tick signal (used in mode 1)
+// edit_mode            - edit mode signal, toggle between the 2 modes
+// inc                  - increment (used in mode 2)
+// dec                  - decrement (used in mdoe 2)
+// count [WIDTH-1:0]    - the count output
+// borrow_out           - is high if the subtraction requires borrowing a 10 
+//                        (on count == 0)
+
 
 `timescale 1ns / 1ps
 
