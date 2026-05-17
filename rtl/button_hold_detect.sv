@@ -25,7 +25,7 @@ module button_hold_detect #(
   logic count_rst;
   logic count_enable;
   logic [CountWidth-1:0] count;
-  initial held = '0;
+  //initial held = '0;
 
   mod_n_counter #(
       .N(CountMax + 1),

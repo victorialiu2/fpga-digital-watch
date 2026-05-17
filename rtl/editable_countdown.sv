@@ -15,7 +15,7 @@
 // inc                  - increment (used in mode 2)
 // dec                  - decrement (used in mdoe 2)
 // count [WIDTH-1:0]    - the count output
-// borrow_out           - is high if the subtraction requires borrowing a 10 
+// borrow_out           - is high if the subtraction requires borrowing a 10
 //                        (on count == 0)
 
 
