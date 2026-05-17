@@ -25,7 +25,6 @@ module up_down_counter #(
   logic [WIDTH-1:0] next_count;
   always_ff @(posedge clk) if (enable) count <= next_count;
 
-  // adding ' avoids 32-bit wide default length
   initial count = '0;
   // avoid 32-bit wide int MAX, translate it to Max and explicitly adjust width
   localparam logic [WIDTH-1:0] Max = WIDTH'(MAX);
