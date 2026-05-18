@@ -4,8 +4,8 @@
 // this decrements on a tick, and can be reset.
 //
 // Parameters:
-// N      - The maximum count value (exclusive, range: [0, N-1])
-// WIDTH  - how many binary digits does N need
+// MAX      - The maximum count value, range: [0, Max])
+// WIDTH    - how many binary digits does N need
 //
 // Ports:
 // clk                  - clock signal
