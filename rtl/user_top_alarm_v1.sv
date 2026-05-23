@@ -48,7 +48,7 @@ module user_top_alarm_v1 #(
   // edit logic
   logic inc, dec, edit_alarm, edit_time;
   localparam logic [1:0] NoEdit = 2'b00;
-  logic [1:0] edit_mode, edit_mode_alarm, edit_mode_time;
+  logic [1:0] edit_mode, edit_mode_alarm, edit_mode_time, prev_edit_mode;
   assign edit_mode_alarm = (edit_alarm) ? edit_mode : NoEdit;
   assign edit_mode_time = (edit_time) ? edit_mode : NoEdit;
   assign inc = pressed_3;
@@ -63,8 +63,16 @@ module user_top_alarm_v1 #(
     if (flash_display) begin
       {blank_hours, blank_minutes, blank_seconds} = {pwm_out, pwm_out, pwm_out};
     end else begin
-      {blank_hours, blank_minutes, blank_seconds} = 3'b0;
+      blank_hours   = (edit_mode == 2'b11) ? pwm_out : '0;
+      blank_minutes = (edit_mode == 2'b10) ? pwm_out : '0;
+      blank_seconds = (edit_mode == 2'b01) ? pwm_out : '0;
     end
+  end
+
+  // reset pwm logic
+  initial prev_edit_mode = NoEdit;
+  always_ff @(posedge clk) begin
+    prev_edit_mode <= edit_mode;
   end
 
   editable_hms_counter alarm_counter (
@@ -125,16 +133,16 @@ module user_top_alarm_v1 #(
       .tick(tick)
   );
 
-  pwm_generator pwm (
-      .clk(clk),
-      .rst(reset_flash),
-      .pwm_out(pwm_out)
-  );
-
   logic reset_flash;
   rising_edge_detector red_flash_reset (
       .clk(clk),
       .sig_in(flash_display),
       .rise(reset_flash)
+  );
+
+  pwm_generator pwm (
+      .clk(clk),
+      .rst(reset_flash || (edit_mode != prev_edit_mode)),
+      .pwm_out(pwm_out)
   );
 endmodule

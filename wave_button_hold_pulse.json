@@ -1,47 +1,34 @@
 {
   "extensionVersion": "1.5.2",
-  "fileName": "/workspace/wave_arming_latch.vcd",
-  "markerTime": 118670,
+  "fileName": "/workspace/wave_button_hold_pulse.vcd",
+  "markerTime": null,
   "altMarkerTime": null,
   "displayTimeUnit": "ps",
   "selectedSignal": {
-    "name": "wave_arming_latch.disarm",
-    "msb": -1,
-    "lsb": -1
+    "name": "wave_button_hold_pulse.dut.u_detect.u_counter.count",
+    "msb": 2,
+    "lsb": 0
   },
-  "zoomRatio": 0.010727271553032505,
-  "scrollLeft": 83525,
+  "zoomRatio": 0.005970243548030452,
+  "scrollLeft": 0,
   "displayedSignals": [
     {
       "dataType": "netlist-variable",
       "netlistId": 1,
-      "name": "wave_arming_latch.arm",
+      "name": "wave_button_hold_pulse.button",
       "numberFormat": "binary",
       "colorIndex": 0,
       "rowHeight": 1,
       "verticalScale": 1,
       "nameType": "fullPath",
-      "customName": "arm",
-      "renderType": "binary",
-      "valueLinkCommand": ""
-    },
-    {
-      "dataType": "netlist-variable",
-      "netlistId": 0,
-      "name": "wave_arming_latch.armed",
-      "numberFormat": "binary",
-      "colorIndex": 0,
-      "rowHeight": 1,
-      "verticalScale": 1,
-      "nameType": "fullPath",
-      "customName": "armed",
+      "customName": "button",
       "renderType": "binary",
       "valueLinkCommand": ""
     },
     {
       "dataType": "netlist-variable",
       "netlistId": 2,
-      "name": "wave_arming_latch.clk",
+      "name": "wave_button_hold_pulse.clk",
       "numberFormat": "binary",
       "colorIndex": 0,
       "rowHeight": 1,
@@ -53,15 +40,28 @@
     },
     {
       "dataType": "netlist-variable",
-      "netlistId": 3,
-      "name": "wave_arming_latch.disarm",
+      "netlistId": 0,
+      "name": "wave_button_hold_pulse.pulse",
       "numberFormat": "binary",
       "colorIndex": 0,
       "rowHeight": 1,
       "verticalScale": 1,
       "nameType": "fullPath",
-      "customName": "disarm",
+      "customName": "pulse",
       "renderType": "binary",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 22,
+      "name": "wave_button_hold_pulse.dut.u_detect.u_counter.count",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "count",
+      "renderType": "multiBit",
       "valueLinkCommand": ""
     }
   ]

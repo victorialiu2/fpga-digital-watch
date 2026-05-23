@@ -84,7 +84,7 @@ module user_top_watch_v4 #(
 
   // Derive 1 Hz tick from system clock
   logic rst;
-  assign rst = seconds_edit;
+  assign rst = seconds_edit && button[3];
   restartable_rate_generator #(
       .CYCLE_COUNT(CYCLES_PER_SECOND)
   ) u_divider_1_Hz (

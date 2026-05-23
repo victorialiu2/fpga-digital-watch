@@ -26,6 +26,8 @@ module snapshot_mux #(
   initial snapshot = '0;
   assign q = (hold) ? snapshot : d;
   always_ff @(posedge clk) begin
+    // always update the snapshot on low, stop updating
+    // once hold is high.
     if (!hold) snapshot <= d;
   end
 

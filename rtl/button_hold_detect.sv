@@ -25,10 +25,9 @@ module button_hold_detect #(
   logic count_rst;
   logic count_enable;
   logic [CountWidth-1:0] count;
-  //initial held = '0;
 
   mod_n_counter #(
-      .N(CountMax + 1),
+      .N(HOLD_CYCLES + 1),
       .WIDTH(CountWidth)
   ) u_counter (
       .clk(clk),
@@ -41,7 +40,7 @@ module button_hold_detect #(
   assign count_rst = !button;
 
   always_comb
-    if (count == CountWidth'(CountMax)) held = '1;
+    if (count == CountWidth'(HOLD_CYCLES)) held = '1;
     else held = '0;
 
 endmodule

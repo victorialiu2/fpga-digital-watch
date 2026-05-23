@@ -35,7 +35,7 @@ module user_top_brightness_timepiece #(
 
   logic dim_hours, dim_minutes, dim_seconds, blank;
 
-  user_top_timepiece_v1 #(
+  user_top_timepiece_v2 #(
       .CYCLES_PER_SECOND(CYCLES_PER_SECOND)
   ) u_user_top (
       .clk          (clk),
@@ -58,15 +58,14 @@ module user_top_brightness_timepiece #(
   localparam int Full = PwmPeriod;
 
   logic [PeriodWidth-1:0] duty_cycle;
-
+  logic [1:0] brightness_sw;
+  assign brightness_sw = sw[9:8];
   always_comb begin
-    unique case ({
-      sw[9], sw[8]
-    })
-      2'b00: duty_cycle = Dim;
-      2'b01: duty_cycle = Low;
-      2'b11: duty_cycle = Medium;
-      2'b10: duty_cycle = Full;
+    unique case (brightness_sw)
+      2'b00: duty_cycle = PeriodWidth'(Dim);
+      2'b01: duty_cycle = PeriodWidth'(Low);
+      2'b11: duty_cycle = PeriodWidth'(Medium);
+      2'b10: duty_cycle = PeriodWidth'(Full);
     endcase
   end
 

@@ -1,12 +1,16 @@
 {
   "extensionVersion": "1.5.2",
   "fileName": "/workspace/wave_key_synchroniser.vcd",
-  "markerTime": 210822,
+  "markerTime": 211714,
   "altMarkerTime": null,
   "displayTimeUnit": "ps",
-  "selectedSignal": null,
-  "zoomRatio": 0.00539878178000533,
-  "scrollLeft": 0,
+  "selectedSignal": {
+    "name": "wave_key_synchroniser.key_sync",
+    "msb": 3,
+    "lsb": 0
+  },
+  "zoomRatio": 0.006162607016791154,
+  "scrollLeft": 31642,
   "displayedSignals": [
     {
       "dataType": "netlist-variable",

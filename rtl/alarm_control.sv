@@ -53,9 +53,10 @@ module alarm_control (
 
   always_comb begin
     nextEditMode = editMode;
-    if ((state == EditTime || state == RunTime) && cycle_time) nextEditMode = editMode + 1'b1;
-    else if ((state == EditAlarm || state == RunTime) && cycle_alarm)
-      nextEditMode = editMode + 1'b1;
+    if (state == RunTime || state == AlarmRing) nextEditMode = 2'b0;
+    if (state == RunTime && (cycle_time || cycle_alarm)) nextEditMode = 2'b01;
+    else if (state == EditTime && cycle_time) nextEditMode = editMode + 1'b1;
+    else if (state == EditAlarm && cycle_alarm) nextEditMode = editMode + 1'b1;
   end
 
   // output logic
@@ -64,6 +65,13 @@ module alarm_control (
   assign edit_time = state == EditTime;
   assign toggle_display = (state == EditTime) || (state == RunTime);
   assign flash_display = state == AlarmRing;
-  assign tick = state != EditTime;  // clock is always running except when it is being edited
+
+  restartable_rate_generator #(
+      .CYCLE_COUNT(50_000_000)
+  ) u_divider_1_Hz (
+      .clk (clk),
+      .run (editMode != 2'b01),
+      .tick(tick)
+  );
 
 endmodule

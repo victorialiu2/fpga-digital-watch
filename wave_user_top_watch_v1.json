@@ -4,13 +4,9 @@
   "markerTime": 5925000,
   "altMarkerTime": null,
   "displayTimeUnit": "ps",
-  "selectedSignal": {
-    "name": "wave_user_top_watch_v1.minutes_disp",
-    "msb": 6,
-    "lsb": 0
-  },
+  "selectedSignal": null,
   "zoomRatio": 0.0016,
-  "scrollLeft": 5625000,
+  "scrollLeft": 5915625,
   "displayedSignals": [
     {
       "dataType": "netlist-variable",

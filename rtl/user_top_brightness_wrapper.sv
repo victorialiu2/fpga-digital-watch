@@ -33,7 +33,7 @@ module user_top_brightness_wrapper #(
     output logic blank_seconds
 );
 
-  logic dim_hours, dim_minutes, dim_seconds, blank;
+  logic u_blank_hours, u_blank_minutes, u_blank_seconds, blank;
 
   user_top #(
       .CYCLES_PER_SECOND(CYCLES_PER_SECOND)
@@ -45,9 +45,9 @@ module user_top_brightness_wrapper #(
       .hours_disp   (hours_disp),
       .minutes_disp (minutes_disp),
       .seconds_disp (seconds_disp),
-      .blank_hours  (dim_hours),
-      .blank_minutes(dim_minutes),
-      .blank_seconds(dim_seconds)
+      .blank_hours  (u_blank_hours),
+      .blank_minutes(u_blank_minutes),
+      .blank_seconds(u_blank_seconds)
   );
 
   localparam int PwmPeriod = CYCLES_PER_SECOND / 1_000;
@@ -58,17 +58,17 @@ module user_top_brightness_wrapper #(
   localparam int Full = PwmPeriod;
 
   logic [PeriodWidth-1:0] duty_cycle;
-
+  logic [1:0] brightness_sw;
+  assign brightness_sw = sw[9:8];
   always_comb begin
-    unique case ({
-      sw[9], sw[8]
-    })
-      2'b00: duty_cycle = Dim;
-      2'b01: duty_cycle = Low;
-      2'b11: duty_cycle = Medium;
-      2'b10: duty_cycle = Full;
+    unique case (brightness_sw)
+      2'b00: duty_cycle = PeriodWidth'(Dim);
+      2'b01: duty_cycle = PeriodWidth'(Low);
+      2'b11: duty_cycle = PeriodWidth'(Medium);
+      2'b10: duty_cycle = PeriodWidth'(Full);
     endcase
   end
+
 
   logic [PeriodWidth-1:0] count;
   mod_n_counter #(
@@ -82,8 +82,8 @@ module user_top_brightness_wrapper #(
   );
 
   assign blank = count >= duty_cycle;
-  assign blank_hours = blank | dim_hours;
-  assign blank_minutes = blank | dim_minutes;
-  assign blank_seconds = blank | dim_seconds;
+  assign blank_hours = blank | u_blank_hours;
+  assign blank_minutes = blank | u_blank_minutes;
+  assign blank_seconds = blank | u_blank_seconds;
 
 endmodule

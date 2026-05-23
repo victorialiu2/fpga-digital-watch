@@ -50,15 +50,6 @@ module user_top_stopwatch_v1 #(
       .rise(rise_lap)
   );
 
-  snapshot_mux #(
-      .WIDTH(21)
-  ) display (
-      .clk(clk),
-      .hold(lap_hold),
-      .d({minutes, 1'b0, seconds, centiseconds}),
-      .q({hours_disp, minutes_disp, seconds_disp})
-  );
-
   logic rst, counter_enable, lap_hold;
   stopwatch_control controller (
       .clk(clk),
@@ -80,6 +71,15 @@ module user_top_stopwatch_v1 #(
       .minutes(minutes),
       .seconds(seconds),
       .centiseconds(centiseconds)
+  );
+
+  snapshot_mux #(
+      .WIDTH(21)
+  ) display (
+      .clk(clk),
+      .hold(lap_hold),
+      .d({minutes, 1'b0, seconds, centiseconds}),
+      .q({hours_disp, minutes_disp, seconds_disp})
   );
 
 endmodule

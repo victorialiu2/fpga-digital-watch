@@ -53,10 +53,9 @@ module user_top_timer_v1 #(
 
   initial running = '0;
   always_comb begin
-    // if hours is about to wrap to 23, that means the counter has reached 0:0:0
-    if (wrap) next_running = '0;
-    else if (toggle_running) next_running = !running;
+    if (toggle_running) next_running = !running;
     else next_running = running;
+    if (!no_edit || rollover) next_running = '0;
   end
 
   always_ff @(posedge clk) begin
@@ -64,24 +63,7 @@ module user_top_timer_v1 #(
   end
 
   // edit logic
-  logic
-      inc_pulse,
-      dec_pulse,
-      seconds_inc,
-      seconds_dec,
-      minutes_inc,
-      minutes_dec,
-      hours_inc,
-      hours_dec,
-      seconds_edit,
-      minutes_edit,
-      hours_edit;
-  assign seconds_inc = inc_pulse;
-  assign seconds_dec = dec_pulse;
-  assign minutes_inc = inc_pulse;
-  assign minutes_dec = dec_pulse;
-  assign hours_inc   = inc_pulse;
-  assign hours_dec   = dec_pulse;
+  logic inc_pulse, dec_pulse, seconds_edit, minutes_edit, hours_edit, no_edit;
 
   button_auto_repeat #(
       .HOLD_CYCLES  (CYCLES_PER_SECOND / 2),
@@ -103,53 +85,57 @@ module user_top_timer_v1 #(
 
   assign seconds_edit = mode_enable == 3'b001;
   assign minutes_edit = mode_enable == 3'b010;
-  assign hours_edit   = mode_enable == 3'b100;
+  assign hours_edit = mode_enable == 3'b100;
+  assign no_edit = mode_enable == 3'b0;
 
   // Count logic
 
   logic [4:0] hours;
   logic [5:0] minutes, seconds;
-  logic hours_tick, minutes_tick, seconds_tick, wrap;
-  assign wrap = (hours == 0) && (minutes == 0) && (seconds == 0);
+  logic hours_tick, minutes_tick, seconds_tick, rollover;
+  assign rollover = (hours == 0) && (minutes == 0) && (seconds == 0);
 
+  /* verilator lint_off UNUSEDSIGNAL */
+  logic hours_borrow;  // unused
+  /* verilator lint_on UNUSEDSIGNAL */
   editable_countdown #(
-      .MAX  (24),
+      .MAX  (23),
       .WIDTH(5)
   ) hours_counter (
       .clk(clk),
       .clr('0),
       .tick(hours_tick),
       .edit_mode(hours_edit),
-      .inc(hours_inc),
-      .dec(hours_dec),
+      .inc(inc_pulse),
+      .dec(dec_pulse),
       .count(hours),
-      .borrow_out()
+      .borrow_out(hours_borrow)
   );
 
   editable_countdown #(
-      .MAX  (60),
+      .MAX  (59),
       .WIDTH(6)
   ) minutes_counter (
       .clk(clk),
       .clr('0),
       .tick(minutes_tick),
       .edit_mode(minutes_edit),
-      .inc(minutes_inc),
-      .dec(minutes_dec),
+      .inc(inc_pulse),
+      .dec(dec_pulse),
       .count(minutes),
       .borrow_out(hours_tick)
   );
 
   editable_countdown #(
-      .MAX  (60),
+      .MAX  (59),
       .WIDTH(6)
   ) seconds_counter (
       .clk(clk),
       .clr('0),
       .tick(seconds_tick),
       .edit_mode(seconds_edit),
-      .inc(seconds_inc),
-      .dec(seconds_dec),
+      .inc(inc_pulse),
+      .dec(dec_pulse),
       .count(seconds),
       .borrow_out(minutes_tick)
   );
@@ -190,9 +176,9 @@ module user_top_timer_v1 #(
       .pwm_out(pwm_out)
   );
 
-  assign blank_seconds = !pwm_out && mode_enable == 3'b001;
-  assign blank_minutes = !pwm_out && mode_enable == 3'b010;
-  assign blank_hours = !pwm_out && mode_enable == 3'b100;
+  assign blank_seconds = !pwm_out && seconds_edit;
+  assign blank_minutes = !pwm_out && minutes_edit;
+  assign blank_hours = !pwm_out && hours_edit;
   assign led = 10'b0;
 
 endmodule

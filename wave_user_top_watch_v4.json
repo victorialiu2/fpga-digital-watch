@@ -1,0 +1,102 @@
+{
+  "extensionVersion": "1.5.2",
+  "fileName": "/workspace/wave_user_top_watch_v4.vcd",
+  "markerTime": 1218700,
+  "altMarkerTime": null,
+  "displayTimeUnit": "ps",
+  "selectedSignal": {
+    "name": "wave_user_top_watch_v4.dut.u_divider_1_Hz.g_general.count",
+    "msb": 5,
+    "lsb": 0
+  },
+  "zoomRatio": 0.0021397800702868167,
+  "scrollLeft": 1172901,
+  "displayedSignals": [
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 1,
+      "name": "wave_user_top_watch_v4.seconds_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "seconds_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 2,
+      "name": "wave_user_top_watch_v4.minutes_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "minutes_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 3,
+      "name": "wave_user_top_watch_v4.hours_disp",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "hours_disp",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 158,
+      "name": "wave_user_top_watch_v4.dut.u_divider_1_Hz.g_general.count",
+      "numberFormat": "decimal",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "count",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "custom-variable",
+      "source": [
+        {
+          "name": "wave_user_top_watch_v4.dut.button",
+          "netlistId": 13,
+          "signalId": 10,
+          "signalWidth": 4,
+          "msb": 3,
+          "lsb": 3
+        }
+      ],
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "wave_user_top_watch_v4.dut.button[3]",
+      "renderType": "binary",
+      "valueLinkCommand": ""
+    },
+    {
+      "dataType": "netlist-variable",
+      "netlistId": 31,
+      "name": "wave_user_top_watch_v4.dut.mode_enable",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "rowHeight": 1,
+      "verticalScale": 1,
+      "nameType": "fullPath",
+      "customName": "mode_enable",
+      "renderType": "multiBit",
+      "valueLinkCommand": ""
+    }
+  ]
+}

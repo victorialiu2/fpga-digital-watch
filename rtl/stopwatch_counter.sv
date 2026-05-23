@@ -25,6 +25,17 @@ module stopwatch_counter #(
     output logic [6:0] centiseconds  // hundredths of a second
 );
 
+  logic enable_gen, tick, enable_counter;
+  assign enable_gen = !rst & enable;
+  assign enable_counter = tick & enable;
+  restartable_rate_generator #(
+      .CYCLE_COUNT(CYCLES_PER_SECOND / 100)
+  ) rate_generator (
+      .clk (clk),
+      .run (enable_gen),
+      .tick(tick)
+  );
+
   cascade_counter #(
       .N2(100),
       .N1(60),
@@ -39,16 +50,5 @@ module stopwatch_counter #(
       .count2(minutes),
       .count1(seconds),
       .count0(centiseconds)
-  );
-
-  logic enable_gen, tick, enable_counter;
-  assign enable_gen = !rst & enable;
-  assign enable_counter = tick & enable;
-  restartable_rate_generator #(
-      .CYCLE_COUNT(CYCLES_PER_SECOND / 100)
-  ) rate_generator (
-      .clk (clk),
-      .run (enable_gen),
-      .tick(tick)
   );
 endmodule

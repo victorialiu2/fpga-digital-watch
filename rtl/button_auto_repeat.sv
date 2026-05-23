@@ -35,7 +35,6 @@ module button_auto_repeat #(
       .rise(rise)
   );
   button_hold_detect #(
-      // to include the first cycle pulse, - REPEAT_CYCLES
       .HOLD_CYCLES(HOLD_CYCLES - REPEAT_CYCLES + 1)
   ) holdDetector (
       .clk(clk),

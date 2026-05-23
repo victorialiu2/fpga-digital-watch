@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns / 1ps
 module wave_key_synchroniser;
   reg        clk = 0;
   reg  [3:0] key_n = 4'b1111;  // all released (active-low)

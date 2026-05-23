@@ -24,20 +24,26 @@ module stopwatch_control (
     output logic counter_enable,
     output logic lap_hold
 );
-  initial {counter_rst, counter_enable, lap_hold} = 3'b0;
+
+  logic [2:0] state, next_state;
+  initial state = 3'b0;
+  assign {counter_rst, counter_enable, lap_hold} = state;
 
   // prevent input signal when both inputs are high
   logic start_stop, lap;
   assign start_stop = rise_start_stop & !rise_lap;
   assign lap = rise_lap & !rise_start_stop;
 
-  logic stopped_and_live;
-  assign stopped_and_live = !counter_enable & !lap_hold;
+  // NS logic
+  // counter_rst
+  assign next_state[2] = (state == 3'b000 & lap) ? 1'b1 : 1'b0;
+  // counter_enable
+  assign next_state[1] = (start_stop) ? !state[1] : state[1];
+  // lap_hold
+  assign next_state[0] = (state != 3'b000 & lap) ? !state[0] : state[0];
 
   always_ff @(posedge clk) begin
-    counter_enable <= (start_stop) ? !counter_enable : counter_enable;
-    lap_hold <= (lap & !stopped_and_live) ? !lap_hold : lap_hold;
-    counter_rst <= (lap & stopped_and_live) ? '1 : '0;
+    state <= next_state;
   end
 
 endmodule
